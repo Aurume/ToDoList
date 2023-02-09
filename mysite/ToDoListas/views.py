@@ -23,18 +23,18 @@ def index(request):
     #num_uzduotys = Uzduotis.objects.count()
     #num_instances_available = BookInstance.objects.filter(status__exact='g').count()
     #num_ivykdyta = Uzduotis.objects.filter(status__exact='i').count()
-    #num_aktyvios = Uzduotis.objects.filter(status__exact='p').count()
+    num_aktyvios = Uzduotis.objects.filter(status__exact='p').count()
 
-    Uzduotis.objects.aggregate(
-        num_aktyvios=Count('pk', filter=Q(status='Reikia padaryti')),
-        num_daromos=Count('pk', filter=Q(status='Daroma'))
-    )
+    # Uzduotis.objects.aggregate(
+    #     num_aktyvios=Count('pk', filter=Q(status='Reikia padaryti')),
+    #     num_daromos=Count('pk', filter=Q(status='Daroma'))
+    # )
 
     context = {
     #     "num_uzduotys": num_uzduotys,
     #     #"num_ivykdyta": num_ivykdyta,
-    #      "num_aktyvios": num_aktyvios,
-    #      "num_daromos": num_daromos,
+         "num_aktyvios": num_aktyvios,
+         # "num_daromos": num_daromos,
      }
     return render(request, 'index.html', context=context)
 
