@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Užduoties informacija{% endblock %}
+
+{% block content %}
+
+<p><b>Vartotojas: </b>{{ uzduotis.vartotojas}}</p>
+<p><b>Užduoties pavadinimas: </b>{{ uzduotis.pavadinimas}}</p>
+<p><b>Užduoties aprašymas: </b>{{ uzduotis.aprasymas}}</p>
+<p><b>Užduoties data: </b>{{ uzduotis.sukurta }}</p>
+<p><b>Atlikti iki: </b>{{ uzduotis.terminas }}</p>
+<p><b>Užduoties būsena: </b>{{ uzduotis.get_status_display }}</p>
+
+<hr>
+{% if uzduotis.vartotojas == user %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'uzduotis-redaguoti' object.id %}">Redaguoti</a>
+    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'uzduotis-trinti' object.id %}">Ištrinti</a>
+</div>
+
+
+
+{% endif %}
+
+{% endblock %}
+

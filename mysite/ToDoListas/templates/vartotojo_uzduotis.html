@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Užduoties info{% endblock %}
+
+{% block content %}
+<h1>Mano  užduoties info:</h1>
+{% load static %}
+
+{% if uzduotis.vartotojas == user %}
+<p><b>Vartotojas: </b>{{ uzduotis.vartotojas}}</p>
+<p><b>Užduoties pavadinimas: </b>{{ uzduotis.pavadinimas}}</p>
+<p><b>Užduoties aprašymas: </b>{{ uzduotis.aprasymas}}</p>
+<p><b>Užduoties data: </b>{{ uzduotis.data }}</p>
+<p><b>Užduoties terminas:</b>{{ uzduotis.terminas }}</p>
+<p><b>Užduoties būsena: </b>{{ uzduotis.get_status_display }}</p>
+
+<hr>
+
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'uzduotis-redaguoti' object.id %}">Redaguoti</a>
+    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'uzduotis-trinti' object.id %}">Ištrinti</a>
+</div>
+
+
+
+
+{% endif %}
+
+
+
+
+
+{% endblock %}
+
+
+{% if object.vartotojas == user %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'uzduotis-redaguoti' object.id %}">Redaguoti</a>
+    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'uzduotis-trinti' object.id %}">Ištrinti</a>
+</div>
+{% endif %}
+
+ <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; pirmas</a>
+            <a href="?page={{ page_obj.previous_page_number }}">atgal</a>
+        {% endif %}
+
+        <span class="current">
+            {{ page_obj.number }} iš {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">pirmyn</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">paskutinis &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
+

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}HOME{% endblock %}
+
+{% block content %}
+
+
+<div>
+        <h2>Labas, {{request.user|title}}</h2>
+</div>
+
+        <h3 style="margin:0">Jūs turite <i>{{num_aktyvios}}</i> užduočių, kurias reikia padaryti!</h3>
+
+
+{% endblock %}
