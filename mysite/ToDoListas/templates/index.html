@@ -5,11 +5,12 @@
 {% block content %}
 
 
-
-        <h2>Labas, {{request.user|title}}!</h2>
+<h2>Labas, {{request.user|title}}!</h2>
 <br>
+{% if user.is_authenticated %}
 
-        <h4>Jūs turite <i>{{num_aktyvios}}</i> užduočių, kurias reikia padaryti!</h4>
-
-
+<h4>Jūs turite užduočių, kurias reikia padaryti: <i><b style="color:red;"> {{num_aktyvios}} </b></i></h4>
+{% else %}
+<h4>Užduočių kurias reikia atlikti nėra.</h4>
+{% endif %}
 {% endblock %}

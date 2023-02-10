@@ -10,12 +10,11 @@
 
     <a href="{% url 'uzduotis' uzduotis.pk %}">
     <p>{{ uzduotis }}</p>
-    <br/>
-
+    <hr>
     </a>
 
-    {% endfor %}
-    {% else %}
+{% endfor %}
+{% else %}
     <p>Užsakymų nerasta.</p>
 {% endif %}
 

@@ -18,23 +18,18 @@ from .forms import UzduotisCreateUpdateForm, UzduotisApzvalgaForm
 
 # Create your views here.
 
-
+@login_required
 def index(request):
     #num_uzduotys = Uzduotis.objects.count()
-    #num_instances_available = BookInstance.objects.filter(status__exact='g').count()
-    #num_ivykdyta = Uzduotis.objects.filter(status__exact='i').count()
-    num_aktyvios = Uzduotis.objects.filter(status__exact='p').count()
+    #num_aktyvios = Uzduotis.objects.filter(status__exact='p').count()  # p=reikia padaryti
+    # veikia patikrinus vartotoja ir ar jis prisijunges.
+    num_aktyvios = Uzduotis.objects.filter(vartotojas=request.user, vartotojas__is_active=True, status__exact='p').count()
 
-    # Uzduotis.objects.aggregate(
-    #     num_aktyvios=Count('pk', filter=Q(status='Reikia padaryti')),
-    #     num_daromos=Count('pk', filter=Q(status='Daroma'))
-    # )
 
     context = {
     #     "num_uzduotys": num_uzduotys,
-    #     #"num_ivykdyta": num_ivykdyta,
          "num_aktyvios": num_aktyvios,
-         # "num_daromos": num_daromos,
+
      }
     return render(request, 'index.html', context=context)
 
@@ -103,18 +98,8 @@ class UzduotysList(ListView):
     paginate_by = 5
     template_name = 'uzduotys.html'
 
-# class UzduotisList(LoginRequiredMixin, ListView):
-#
-#     model = Uzduotis
-#     context_object_name = 'uzduotys' #grazina kai uzduotYs, jeigu uzduotIs tada nieko
-#     paginate_by = 20
-#     template_name = 'uzduotys.html'
-#
-#
-    # def get_queryset(self):
-    #     return Uzduotis.objects.filter(vartotojas=self.request.user).order_by('-sukurta')
 
-    #
+
     # def get(self, request, *args, **kwargs):
     #     uzduotis = Uzduotis.objects.all()
     #     context = {'uzduotis': uzduotis}
@@ -129,7 +114,7 @@ class UzduotysList(ListView):
     #     # user = get_object_or_404(User, username=self.kwargs.get('pavadinimas'))
     #     return Uzduotis.objects.filter(vartotojas=self.request.user)
 
-class UzduotisDetail(FormMixin, DetailView): # paziuret ar cia ne del komentaru sita klase.
+class UzduotisDetail(FormMixin, DetailView):
 
     model = Uzduotis
     context_object_name = 'uzduotis'
@@ -148,19 +133,6 @@ class UzduotisDetail(FormMixin, DetailView): # paziuret ar cia ne del komentaru 
         else:
             return self.form_invalid(form)
 
-    # def form_valid(self, form):
-    #     form.instance.uzduotis = self.get_object()
-    #     form.instance.vartotojas = self.request.user
-    #     form.save()
-    #     return super(UzduotisDetail, self).form_valid(form)
-
-
-    # def get_initial(self):
-    #     return {
-    #         'uzduotis': self.get_object(),
-    #         'vartotojas': self.request.user,
-    #     }
-
 
 class VartotojoUzduotisList(LoginRequiredMixin, ListView):
     model = Uzduotis
@@ -174,7 +146,7 @@ class VartotojoUzduotisList(LoginRequiredMixin, ListView):
 class VartotojoUzduotysList(LoginRequiredMixin, ListView):
     model = Uzduotis
     context_object_name = 'uzduotis'
-    template_name = 'vartotojo_uzduotis.html' # pataisiau cia i uzduotyss, nepadejo
+    template_name = 'vartotojo_uzduotis.html'
     paginate_by = 7
 
     def get_queryset(self):

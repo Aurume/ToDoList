@@ -17,11 +17,6 @@ class Uzduotis(models.Model):
     terminas = models.DateTimeField('Įvykdyti iki:', null=True, blank=True, help_text='Užduoties terminas')
     aprasymas = models.TextField('Aprašymas', null=True, blank=True, help_text='Aprašykite užduotį plačiau')
 
-    def baigesi_laikas(self):
-        if self.terminas:
-            return self.terminas.replace(tzinfo=utc) < datetime.today().replace(tzinfo=utc)
-        else:
-            return False
 
 
     LOAN_STATUS = (
@@ -44,7 +39,7 @@ class Uzduotis(models.Model):
         ordering = ['-sukurta']
 
     def __str__(self):
-        return f"{self.pavadinimas} ({self.sukurta})"  # uzduoties atvaizdavimas admin puslapyje
+        return f"{self.pavadinimas} ({self.sukurta})"  # uzduoties stulpeliu atvaizdavimas admin puslapyje
 
 class UzduotisApzvalga(models.Model):
     uzduotis = models.ForeignKey(Uzduotis, on_delete=models.SET_NULL, null=True, blank=True)
